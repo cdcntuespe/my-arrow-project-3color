@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隨機箭頭播放</title>
+    <style>
+        img {
+            width: 500px; /* 設置箭頭的寬度 */
+            height: 500px; /* 設置箭頭的高度 */
+            display: block;
+            margin: 0 auto; /* 使箭頭居中 */
+        }
+    </style>
+</head>
+<body>
+
+<img id="arrow" alt="arrow"> <!-- 不設置 src 讓初始顯示為空 -->
+
+<!-- 控制播放速度的按鈕 -->
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="changeSpeed(500)">0.5</button>
+    <button onclick="changeSpeed(1000)">1</button>
+	<button onclick="changeSpeed(1500)">1.5</button>
+    <button onclick="changeSpeed(2000)">2</button>
+</div>
+	
+<script>
+const arrows = [
+        'arrow_right_red.png',
+        'arrow_right_blue.png',
+        'arrow_right_yellow.png',
+      	'arrow_left_red.png',
+        'arrow_left_blue.png',
+        'arrow_left_yellow.png'
+    ];
+
+let interval = 1500; //  1 秒=1000
+let currentArrow = ''; // 記錄當前顯示的箭頭
+
+// 隨機顯示非重複箭頭的函數
+    function showRandomArrow() {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * arrows.length);
+        } while (arrows[randomIndex] === currentArrow); // 避免與當前箭頭重複
+
+        currentArrow = arrows[randomIndex]; // 更新當前箭頭
+        const arrowImg = document.getElementById('arrow');
+        arrowImg.src = currentArrow; // 顯示新的箭頭圖片
+    }
+
+// 頁面加載後立即顯示一個隨機箭頭
+	window.onload = function() {
+        showRandomArrow(); // 頁面加載後立即顯示一個隨機箭頭
+    }
+
+    let playInterval = setInterval(showRandomArrow, interval);
+
+// 修改播放速度的函數
+    function changeSpeed(newSpeed) {
+        clearInterval(playInterval);
+        interval = newSpeed;
+        playInterval = setInterval(showRandomArrow, interval);
+    }
+</script>
+
+</body>
+</html>
