@@ -27,8 +27,10 @@
 </div>
 
 <!-- 播放和暫停按鈕 -->
+<div style="text-align: center; margin-top: 20px;">
     <button id="play-button">Play</button>
     <button id="pause-button">Pause</button>
+</div>
 	
 <script>
 // 定義箭頭圖片
@@ -68,9 +70,6 @@
         // 預設自動開始播放
         playSlideshow();
 
-let interval = 1500; //  1 秒=1000
-let currentArrow = ''; // 記錄當前顯示的箭頭
-
 // 隨機顯示非重複箭頭的函數
     function showRandomArrow() {
         let randomIndex;
@@ -83,19 +82,15 @@ let currentArrow = ''; // 記錄當前顯示的箭頭
         arrowImg.src = currentArrow; // 顯示新的箭頭圖片
     }
 
-// 頁面加載後立即顯示一個隨機箭頭
-	window.onload = function() {
-        showRandomArrow(); // 頁面加載後立即顯示一個隨機箭頭
-    }
-
-    let playInterval = setInterval(showRandomArrow, interval);
-
 // 修改播放速度的函數
     function changeSpeed(newSpeed) {
         clearInterval(playInterval);
         interval = newSpeed;
         playInterval = setInterval(showRandomArrow, interval);
     }
+
+let interval = 1500; //  1 秒=1000
+let currentArrow = ''; // 記錄當前顯示的箭頭
 </script>
 
 </body>
