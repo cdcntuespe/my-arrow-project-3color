@@ -35,45 +35,55 @@
 <script>
 // 定義箭頭圖片
         const arrowImages = ["arrow_right_red.png", "arrow_right_blue.png", "arrow_right_yellow.png","arrow_left_red.png","arrow_left_red.png","arrow_left_blue.png","arrow_left_yellow.png"];
-        let currentIndex = 0;
+        let currentIndex = -1; // 初始化為 -1，以確保第一次選擇圖片時總是不同
         let slideshowInterval;
-
-        // 定義一個播放狀態標誌
         let isPlaying = false;
+        let speed = 1500; // 初始播放速度為 1500 毫秒
+
+        // 隨機切換圖片的函數，保證不連續顯示相同圖片
+        function changeArrowImage() {
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * arrowImages.length);
+            } while (nextIndex === currentIndex); // 保證不選擇上一張圖片
+            currentIndex = nextIndex;
+            document.getElementById("arrow-image").src = arrowImages[currentIndex];
+        }
 
         // 播放箭頭圖片
         function playSlideshow() {
-            if (!isPlaying) {  // 防止多次點擊播放按鈕時多次啟動 setInterval
-                slideshowInterval = setInterval(changeArrowImage, 1000);  // 每1秒更換圖片
-                isPlaying = true;  // 更新播放狀態
+            if (!isPlaying) {
+                slideshowInterval = setInterval(changeArrowImage, speed);
+                isPlaying = true; // 更新播放狀態
             }
+        }
 
         // 暫停箭頭圖片
         function pauseSlideshow() {
-            clearInterval(slideshowInterval);  // 停止計時器
-            isPlaying = false;  // 更新播放狀態
+            clearInterval(slideshowInterval);
+            isPlaying = false; // 更新播放狀態
         }
 
-        // 初始化播放按鈕
+        // 調整播放速度
+        function adjustSpeed() {
+            speed = document.getElementById("speed-range").value;
+            if (isPlaying) {
+                clearInterval(slideshowInterval); // 先暫停現有計時器
+                slideshowInterval = setInterval(changeArrowImage, speed); // 重新以新速度播放
+            }
+        }
+
+        // 綁定播放按鈕
         document.getElementById("play-button").addEventListener("click", playSlideshow);
 
-        // 初始化暫停按鈕
+        // 綁定暫停按鈕
         document.getElementById("pause-button").addEventListener("click", pauseSlideshow);
+
+        // 綁定速度調整輸入框
+        document.getElementById("speed-range").addEventListener("input", adjustSpeed);
 
         // 預設自動開始播放
         playSlideshow();
-
-// 隨機顯示非重複箭頭的函數
-    function showRandomArrow() {
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * arrows.length);
-        } while (arrows[randomIndex] === currentArrow); // 避免與當前箭頭重複
-
-        currentArrow = arrows[randomIndex]; // 更新當前箭頭
-        const arrowImg = document.getElementById('arrow');
-        arrowImg.src = currentArrow; // 顯示新的箭頭圖片
-    }
 
 // 修改播放速度的函數
     function changeSpeed(newSpeed) {
@@ -81,9 +91,6 @@
         interval = newSpeed;
         playInterval = setInterval(showRandomArrow, interval);
     }
-
-let interval = 1500; //  1 秒=1000
-let currentArrow = ''; // 記錄當前顯示的箭頭
 </script>
 
 </body>
