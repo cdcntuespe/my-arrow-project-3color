@@ -31,6 +31,30 @@
     <button id="pause-button">Pause</button>
 	
 <script>
+// 定義箭頭圖片
+        const arrowImages = ["arrow1.png", "arrow2.png", "arrow3.png"];
+        let currentIndex = 0;
+        let slideshowInterval;
+
+// 播放箭頭圖片
+        function playSlideshow() {
+            slideshowInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % arrowImages.length;
+                document.getElementById("arrow-image").src = arrowImages[currentIndex];
+            }, 1000); // 每1秒更換圖片
+        }
+
+// 暫停箭頭圖片
+        function pauseSlideshow() {
+            clearInterval(slideshowInterval);
+        }
+
+// 初始化播放按鈕
+        document.getElementById("play-button").addEventListener("click", playSlideshow);
+
+// 初始化暫停按鈕
+        document.getElementById("pause-button").addEventListener("click", pauseSlideshow);
+
 const arrows = [
         'arrow_right_red.png',
         'arrow_right_blue.png',
