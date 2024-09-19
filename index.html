@@ -36,24 +36,37 @@
         let currentIndex = 0;
         let slideshowInterval;
 
-// 播放箭頭圖片
+        // 定義一個播放狀態標誌
+        let isPlaying = false;
+
+        // 定義隨機切換圖片的函數
+        function changeArrowImage() {
+            currentIndex = Math.floor(Math.random() * arrowImages.length);
+            document.getElementById("arrow-image").src = arrowImages[currentIndex];
+        }
+
+        // 播放箭頭圖片
         function playSlideshow() {
-            slideshowInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % arrowImages.length;
-                document.getElementById("arrow-image").src = arrowImages[currentIndex];
-            }, 1000); // 每1秒更換圖片
+            if (!isPlaying) {  // 防止多次點擊播放按鈕時多次啟動 setInterval
+                slideshowInterval = setInterval(changeArrowImage, 1000);  // 每1秒更換圖片
+                isPlaying = true;  // 更新播放狀態
+            }
         }
 
-// 暫停箭頭圖片
+        // 暫停箭頭圖片
         function pauseSlideshow() {
-            clearInterval(slideshowInterval);
+            clearInterval(slideshowInterval);  // 停止計時器
+            isPlaying = false;  // 更新播放狀態
         }
 
-// 初始化播放按鈕
+        // 初始化播放按鈕
         document.getElementById("play-button").addEventListener("click", playSlideshow);
 
-// 初始化暫停按鈕
+        // 初始化暫停按鈕
         document.getElementById("pause-button").addEventListener("click", pauseSlideshow);
+
+        // 預設自動開始播放
+        playSlideshow();
 
 const arrows = [
         'arrow_right_red.png',
