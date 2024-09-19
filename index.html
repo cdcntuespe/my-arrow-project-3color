@@ -38,15 +38,26 @@
         let isPlaying = false;
         let speed = 1500; // 初始播放速度為 1500 毫秒
 
-        // 隨機切換圖片的函數，保證不連續顯示相同圖片
-        function changeArrowImage() {
-            let nextIndex;
-            do {
-                nextIndex = Math.floor(Math.random() * arrowImages.length);
-            } while (nextIndex === currentIndex); // 保證不選擇上一張圖片
-            currentIndex = nextIndex;
-            document.getElementById("arrow-image").src = arrowImages[currentIndex];
-        }
+// 隨機顯示非重複箭頭的函數
+    function showRandomArrow() {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * arrows.length);
+        } while (arrows[randomIndex] === currentArrow); // 避免與當前箭頭重複
+
+        currentArrow = arrows[randomIndex]; // 更新當前箭頭
+        const arrowImg = document.getElementById('arrow');
+        arrowImg.src = currentArrow; // 顯示新的箭頭圖片
+    }
+
+    // 當頁面加載時隨機顯示一個箭頭
+    window.onload = function() {
+        showRandomArrow(); // 頁面加載後隨機顯示一個箭頭
+    }
+
+    // 每隔固定時間自動切換箭頭
+    let playInterval = setInterval(showRandomArrow, interval);
+
 
         // 播放箭頭圖片
         function playSlideshow() {
